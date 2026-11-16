@@ -1,0 +1,43 @@
+@baseUrl = http://localhost:3000/api
+
+### Registro de usuario
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "nombre": "Facundo",
+  "email": "facundo@example.com",
+  "contraseña": "secreto123"
+}
+
+### Inicio de sesión (guarda el token para las demás peticiones)
+# @name login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@transporte.com",
+  "contraseña": "admin123"
+}
+
+### Perfil del usuario autenticado
+GET {{baseUrl}}/auth/me
+Authorization: Bearer {{login.response.body.token}}
+
+### Listar usuarios (solo administrador)
+GET {{baseUrl}}/auth/usuarios
+Authorization: Bearer {{login.response.body.token}}
+
+### Listar usuarios con un usuario común (debe responder 403)
+# Reemplazar el token por el de un usuario registrado sin permisos de administrador
+GET {{baseUrl}}/auth/usuarios
+Authorization: Bearer PEGAR_TOKEN_DE_USUARIO_COMUN
+
+### Login con datos inválidos (debe responder 400)
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "no-es-un-email",
+  "contraseña": ""
+}

@@ -1,0 +1,55 @@
+@baseUrl = http://localhost:3000/api
+
+# Ejecutar primero el login de auth.http y pegar el token aquí
+@token = PEGAR_TOKEN_AQUI
+
+### Listar vehículos
+GET {{baseUrl}}/vehiculos
+Authorization: Bearer {{token}}
+
+### Obtener un vehículo
+GET {{baseUrl}}/vehiculos/1
+Authorization: Bearer {{token}}
+
+### Crear vehículo
+POST {{baseUrl}}/vehiculos
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "marca": "Mercedes-Benz",
+  "modelo": "Sprinter 515",
+  "patente": "AB123CD",
+  "anio": 2022,
+  "capacidad_de_carga": 3500.50
+}
+
+### Actualizar vehículo
+PUT {{baseUrl}}/vehiculos/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "marca": "Mercedes-Benz",
+  "modelo": "Sprinter 516",
+  "patente": "AB123CD",
+  "anio": 2023,
+  "capacidad_de_carga": 3800
+}
+
+### Error de validación: capacidad negativa (debe responder 400)
+POST {{baseUrl}}/vehiculos
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "marca": "Ford",
+  "modelo": "Cargo 1722",
+  "patente": "AC456EF",
+  "anio": 2020,
+  "capacidad_de_carga": -100
+}
+
+### Eliminar vehículo
+DELETE {{baseUrl}}/vehiculos/1
+Authorization: Bearer {{token}}
